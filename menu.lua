@@ -1,3 +1,2 @@
 local composer = require("composer")
-
-composer.goToScene("game")
+local scene = composer.newScene()
