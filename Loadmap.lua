@@ -1,10 +1,10 @@
 -- Loading map file and checking for collisions
 
 function CheckCollision(x,y)
-    if 1 == 1 then
-        print("Fuck Lua")
-    end
     local colCheck = false
+    if Map[y][x] == "1" then
+        colCheck = true
+    end
     return colCheck
 end
 
@@ -25,6 +25,6 @@ Map = {}          -- create the matrix
     Map[i] = {}
         for j=1,10 do
             local furtherSplit = Split(parsedMap[i], ",")
-            Map[i][j] = furtherSplit[j]
+            Map[i][j] = furtherSplit[j] --adds data
         end
     end
