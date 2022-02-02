@@ -8,14 +8,23 @@ function CheckCollision(x,y)
     return colCheck
 end
 
+function Split(s, delimiter)
+    local result = {};
+    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+        table.insert(result, match);
+    end
+    return result;
+end
+
 local f = io.open("Map.txt", "r")
-print(f:read("*a"))
-print("hi")
---TODO create array with parsed data from map file and append it to the 2d array with layering
-local mt = {}          -- create the matrix
+local parsedMap = Split(f:read("*a"), ":")
+io.close()
+
+Map = {}          -- create the matrix
     for i=1,10 do
-      mt[i] = {}     -- create a new row
-      for j=1,10 do
-        mt[i][j] = 0
-      end
+    Map[i] = {}
+        for j=1,10 do
+            local furtherSplit = Split(parsedMap[i], ",")
+            Map[i][j] = furtherSplit[j]
+        end
     end
