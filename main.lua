@@ -1,51 +1,27 @@
-local unitSize = 20
+require("keyboardInput")
+--require("Loadmap")
 
+local player = display.newImageRect("arrow.png", 32, 32)
+player.x = display.contentCenterX
+player.y = display.contentCenterY
 
-local player = {
-    x = 0,
-    y = 0,
-    rotation = 0
-}
+local function movePlayer(speed)
+    player.x = player.x + math.floor(math.sin(math.rad(player.rotation))*speed)
+    player.y = player.y - math.floor(math.cos(math.rad(player.rotation))*speed)
+end
 
-local boxSize = 50
-
-local walls = {}
-for i = 0, boxSize do
-    walls[i] = {}
-    for j = 0, boxSize do
-        walls[i][j] = 0
+local function gameLoop()
+    if keys.w then
+        movePlayer(16)
+    elseif keys.s then
+        movePlayer(-16)
+    end
+    if keys.left then
+        player.rotation = player.rotation-5
+    elseif keys.right then
+        player.rotation = player.rotation+5
     end
 end
 
-local function addWall(x, y)
-    walls[x][y] = 1
-end
-
-local function drawWalls()
-    for i = 0, #walls do
-        for j = 0, #walls[i] do
-            if (walls[i][j]) == 1 then
-                display.newRect(i*unitSize, j*unitSize, unitSize, unitSize)
-            end
-        end
-    end
-end
-
-for i = 0, boxSize do
-    addWall(0, i)
-    addWall(i, 0)
-    addWall(boxSize, i)
-    addWall(i, boxSize)
-end
-
-drawWalls()
-
-
-local function onKeyEvent(event)
-    print("key: " .. event.keyName .. " phase: " .. event.phase)
-    return false
-end
-
-Runtime:addEventListener("key", onKeyEvent)
-
-display.newRect(0, 0, 100, 100)
+-- start game loop
+gameTimer = timer.performWithDelay(25, gameLoop, 0)
