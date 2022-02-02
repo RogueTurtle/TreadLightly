@@ -12,8 +12,8 @@ local playerSettings = {
     lookSpeed = 10
 }
 
-local function checkColision()
-    if (player.x < 0) or (player.x > display.contentWidth) or (player.y < 0) or (player.y > display.contentHeight) then
+local function checkColision(object)
+    if (object.x < 0) or (object.x > display.contentWidth) or (object.y < 0) or (object.y > display.contentHeight) then
         return true
     end
     return false
@@ -22,14 +22,17 @@ end
 local function moveObject(speed, object)
     local xD = math.floor(math.sin(math.rad(object.rotation))*speed)
     object.x = object.x + xD
-    if checkColision() then
+    if checkColision(object) then
         object.x = object.x - xD
+        return true
     end
     local yD = math.floor(math.cos(math.rad(object.rotation))*speed)
     object.y = object.y - yD
-    if checkColision() then
+    if checkColision(object) then
         object.y = object.y + yD
+        return true
     end
+    return false
 end
 
 local function strafe(speed, dir)
@@ -45,7 +48,16 @@ local function strafe(speed, dir)
 end
 
 local function castRay(x, y, direction)
-    
+    ray.rotation = direction
+    ray.x = x
+    ray.y = y
+    local i = 0
+    while (not moveObject(16, ray)) and (i < 200) do
+        --display.newRect(ray.x, ray.y, 5, 5)
+        i = i + 1
+    end
+    print("hit")
+    return math.sqrt((ray.x-x)*(ray.x-x) + (ray.y-y)*(ray.y-y))
 end
 
 local function gameLoop()
@@ -63,6 +75,9 @@ local function gameLoop()
         player.rotation = player.rotation-playerSettings.lookSpeed
     elseif keys.right then
         player.rotation = player.rotation+playerSettings.lookSpeed
+    end
+    if keys.space then
+        castRay(player.x, player.y, player.rotation)
     end
 end
 
