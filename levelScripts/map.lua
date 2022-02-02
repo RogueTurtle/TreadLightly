@@ -21,9 +21,9 @@ local parsedMap = Split(f:read("*a"), ":")
 io.close()
 
 Map = {}          -- create the matrix
-    for i=1,10 do
+    for i=1,100 do
     Map[i] = {}
-        for j=1,10 do
+        for j=1,100 do
             local furtherSplit = Split(parsedMap[i], ",")
             Map[i][j] = furtherSplit[j] --adds data
         end
