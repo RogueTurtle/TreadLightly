@@ -3,4 +3,3 @@ import numpy as np
 
 img = cv.imread("testMap.jpg")
 px = img[10,10]
-print(px)
