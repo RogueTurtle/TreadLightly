@@ -8,7 +8,7 @@ function CheckCollision(x,y)
     return colCheck
 end
 
-function Split(s, delimiter)
+local function Split(s, delimiter)
     local result = {};
     for match in (s..delimiter):gmatch("(.-)"..delimiter) do
         table.insert(result, match);
@@ -21,10 +21,10 @@ local parsedMap = Split(f:read("*a"), ":")
 io.close()
 
 Map = {}          -- create the matrix
-    for i=1,100 do
+for i=1,100 do
     Map[i] = {}
-        for j=1,100 do
-            local furtherSplit = Split(parsedMap[i], ",")
-            Map[i][j] = furtherSplit[j] --adds data
-        end
+    for j=1,100 do
+        local furtherSplit = Split(parsedMap[i], ",")
+        Map[i][j] = furtherSplit[j] --adds data
     end
+end
