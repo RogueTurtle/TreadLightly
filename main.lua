@@ -21,9 +21,10 @@ local player = {
 
 local renders = {}
 
-local function addRender(x, y, r, g, b)
+local function addRender(x, y, r, g, b, a)
     local render = display.newRect(x, y, renderWidth, renderWidth)
     render:setFillColor(r, g, b)
+    render.alpha = a
     table.insert(renders, render)
 end
 
@@ -125,11 +126,13 @@ local function drawScene()
         if moveX(16, ray) then
             c = 1
         end
+        local brightness = (1/(dist/1))*70
+        print(brightness)
         for j=display.contentCenterY-height, display.contentCenterY+height, renderWidth do
             if c == 0 then
-                addRender(x, j, 255, 0, 0)
+                addRender(x, j, 255, 0, 0, brightness)
             else
-                addRender(x, j, 0, 0, 255)
+                addRender(x, j, 0, 0, 255, brightness)
             end
         end
     end
