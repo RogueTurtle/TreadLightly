@@ -7,7 +7,8 @@ keys = {
     down=false,
     left=false,
     right=false,
-    space=false
+    space=false,
+    leftShift = false
 }
 
 -- keyboard event handler
@@ -34,6 +35,8 @@ local function keyEvent(event)
             keys.right = true
         elseif (event.keyName == "space") then
             keys.space = true
+        elseif (event.keyName == "leftShift") then
+            keys.leftShift = true
         end
     else
         if (event.keyName == "w") then
@@ -54,6 +57,8 @@ local function keyEvent(event)
             keys.right = false
         elseif (event.keyName == "space") then
             keys.space = false
+        elseif (event.keyName == "leftShift") then
+            keys.leftShift = false
         end
     end
 end
