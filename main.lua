@@ -1,10 +1,5 @@
 require("keyboardInput")
-
-local renderWidth = 4
-
---local player = display.newImageRect("arrow.png", 32, 32)
---player.x = display.contentCenterX
---player.y = display.contentCenterY
+require("map")
 
 local playerSettings = {
     speed = 4,
@@ -33,19 +28,6 @@ local function clearRender()
         display.remove(renders[i])
     end
     renders = {}
-end
-
-local ray = {
-    x = display.contentCenterX,
-    y = display.contentCenterY,
-    rotation = 0
-}
-
-local function checkColision(object)
-    if (object.x < 0) or (object.x > display.contentWidth) or (object.y < 0) or (object.y > display.contentHeight) then
-        return true
-    end
-    return false
 end
 
 local function moveX(speed, object)
@@ -94,47 +76,6 @@ local function strafe(speed, dir)
         player.rotation = player.rotation + 90
         moveObject(speed, player)
         player.rotation = player.rotation - 90
-    end
-end
-
-local function castRay(x, y, direction)
-    ray.rotation = direction
-    ray.x = x
-    ray.y = y
-    local i = 0
-    while (not moveObject(16, ray)) and (i < 200) do
-        i = i + 1
-    end
-    return math.sqrt((ray.x-x)*(ray.x-x) + (ray.y-y)*(ray.y-y))
-end
-
-local function drawScene()
-    clearRender()
-    local lines = 1280/renderWidth
-    local x = 0
-    local dir = player.rotation-playerSettings.fov/2
-    local dist = 0
-    for i=0,lines do
-        dist = castRay(player.x, player.y, dir)
-        if dist == 0 then
-            dist = 1
-        end
-        local height = 8000/dist
-        dir = dir + playerSettings.fov/lines
-        x = x + renderWidth
-        local c = 0
-        if moveX(16, ray) then
-            c = 1
-        end
-        local brightness = (1/(dist/1))*70
-        print(brightness)
-        for j=display.contentCenterY-height, display.contentCenterY+height, renderWidth do
-            if c == 0 then
-                addRender(x, j, 255, 0, 0, brightness)
-            else
-                addRender(x, j, 0, 0, 255, brightness)
-            end
-        end
     end
 end
 
